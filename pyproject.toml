@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "gchallenge-de"
+version = "0.1.0"
+description = ""
+authors = ["Freddy Morocoima <morocoimafreddy@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+pandas = "^2.1.1"
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
+fastapi = "^0.104.0"
+uvicorn = "^0.23.2"
+psycopg2-binary = "^2.9.9"
+sqlalchemy = "^2.0.22"
+python-multipart = "^0.0.6"
+argparse = "^1.4.0"
+
+
+[tool.poetry.group.dev.dependencies]
+bandit = "^1.7.5"
+autopep8 = "^2.0.4"
+python-dotenv = "^1.0.0"
+pytest = "^7.4.2"
+coverage = "^7.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
