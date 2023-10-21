@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+
+  db:
+    image: postgres:13.2
+    container_name: db_g_challenge
+    restart: always
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - ${DB_PORT}:5432
+
+
+  adminer:
+    container_name: adminer
+    image: adminer:4.8.0
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+    depends_on: ["db"]
