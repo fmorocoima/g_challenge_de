@@ -16,6 +16,7 @@ psycopg2-binary = "^2.9.9"
 sqlalchemy = "^2.0.22"
 python-multipart = "^0.0.6"
 argparse = "^1.4.0"
+python-dotenv = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
