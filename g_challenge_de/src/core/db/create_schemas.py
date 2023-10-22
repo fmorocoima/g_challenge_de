@@ -12,5 +12,5 @@ ALLOWED_ENTITIES = {
 
 def create_all_schemas():
     Job.__create_all_schemas__()
-    HiredEmployees.__create_schema__()
-    Department.__create_schema__()
+    HiredEmployees.__create_all_schemas__()
+    Department.__create_all_schemas__()

@@ -1,9 +1,13 @@
 [tool.poetry]
-name = "gchallenge-de"
+name = "g_challenge-de"
 version = "0.1.0"
 description = ""
 authors = ["Freddy Morocoima <morocoimafreddy@gmail.com>"]
 readme = "README.md"
+packages = [{include = "g_challenge_de"}]
+
+[tool.poetry.scripts]
+g_challenge_de = "g_challenge_de.src.main:app"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"

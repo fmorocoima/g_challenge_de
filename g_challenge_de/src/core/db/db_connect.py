@@ -22,6 +22,12 @@ SESSION = sessionmaker(bind=ENGINE)
 session = SESSION()
 BASE = declarative_base()
 
+def execute(stmt,engine=ENGINE):
+    with engine.connect() as conn:
+        result = conn.execute(stmt)
+        conn.commit()
+        return result
+
 # Test database health:
 def db_health():
     try:
