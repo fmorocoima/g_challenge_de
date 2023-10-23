@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+
+  db:
+    image: postgres:13.2
+    container_name: db_g_challenge_de
+    restart: always
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - ${DB_PORT}:5432
+
+
+  adminer:
+    container_name: adminer_g_challenge_de
+    image: adminer:4.8.0
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+    depends_on: ["db"]
+
+  app:
+    build: .
+    image: g_challenge_de
+    container_name: g_challenge_de
+    restart: always
+    ports:
+      - 8020:8020
+
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    
+    command: python startup.py
+    depends_on: ["db"]
