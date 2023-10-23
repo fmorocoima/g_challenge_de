@@ -12,12 +12,17 @@ from g_challenge_de.src.settings import (
 parser = argparse.ArgumentParser()
 parser.add_argument('--createschemas', type=bool, required=False)
 
-description = f'''<a href="https://github.com/fmorocoima/g_challenge_de">
-    <img width=10% src="https://raw.githubusercontent.com/fmorocoima/g_challenge_de/develop/g_challenge_de/src/docs/assets/logo.jpg"/> Follow...</a>'''
-
+description = '''
+## Api challenge for data engineer position at globant
+'''
 app = FastAPI(
-    title="G-challenge data engineering API serv ic e docs page", 
+    title="G-challenge data engineering API service docs page", 
     description=description, 
+    contact={
+        "name": "Freddy Morocoima",
+        "url": "https://github.com/fmorocoima/g_challenge_de",
+        "email": "morocoimafreddy@gmail.com",
+    }
     ) 
 
 origins = ["*"] 

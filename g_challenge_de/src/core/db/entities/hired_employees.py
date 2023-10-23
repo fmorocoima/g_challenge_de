@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, insert
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, insert, func, extract, case
 from g_challenge_de.src.core.db.db_connect import ENGINE, BASE, SESSION, execute
 from datetime import datetime
-import csv
-
+from g_challenge_de.src.core.db.entities.jobs import Job
+from g_challenge_de.src.core.db.entities.departments import Department
 
 class HiredEmployees(BASE):
     __tablename__ = 'hired_employees'
@@ -108,3 +108,66 @@ class HiredEmployees(BASE):
         result['valids'] = to_insert
         return result
 
+    @staticmethod
+    async def get_by_quarter(year:int = 2021):
+        session = SESSION()
+        
+        # Consulta para obtener los datos
+        query = session.query(Department.department, Job.job,
+                        func.sum(case((extract('quarter', HiredEmployees.datetime) == 1, 1), else_=0)).label('q1'),
+                        func.sum(case((extract('quarter', HiredEmployees.datetime) == 2, 1), else_=0)).label('q2'),
+                        func.sum(case((extract('quarter', HiredEmployees.datetime) == 3, 1), else_=0)).label('q3'),
+                        func.sum(case((extract('quarter', HiredEmployees.datetime) == 4, 1), else_=0)).label('q4')) \
+        .join(Department, HiredEmployees.department_id == Department.id) \
+        .join(Job, HiredEmployees.job_id == Job.id) \
+        .filter(extract('year', HiredEmployees.datetime) == year) \
+        .group_by(Department.department, Job.job)
+        
+        records = query.all()
+
+        result = {'valids': [], 'invalids': []}
+        for record in records:
+            department, job, q1, q2, q3, q4 = record
+            result['valids'].append({
+                'department': department,
+                'job': job,
+                'Q1': q1,
+                'Q2': q2,
+                'Q3': q3,
+                'Q4': q4,
+            })     
+        session.close()
+        return result
+        
+
+    @staticmethod
+    async def get_departments_above_average(year: int = 2021):
+        session = SESSION()
+        
+        total_employees = session.query(func.count(HiredEmployees.id)) \
+            .filter(extract('year', HiredEmployees.datetime) == year) \
+            .scalar()
+        total_departments = session.query(func.count(Department.id)).scalar()
+        mean = round(total_employees/total_departments)
+        
+        employee_counts = session.query(
+            Department.id,
+            Department.department,          
+            func.count(HiredEmployees.id).label('employee_count')
+        ).join(HiredEmployees, Department.id == HiredEmployees.department_id) \
+            .group_by(Department.department, Department.id) \
+            .filter(extract('year', HiredEmployees.datetime) == year) \
+            .group_by(Department.id, Department.department) \
+            .having(func.count(HiredEmployees.id) > mean) \
+            .order_by(func.count(HiredEmployees.id).desc()) \
+            .all()
+        
+        result = {'valids': [], 'invalids': []}
+
+        result['valids']= [{
+                   'id': record[0], 
+                   'department': record[1], 
+                   'hired': record[2]} for record in employee_counts]
+        session.close()
+
+        return result
