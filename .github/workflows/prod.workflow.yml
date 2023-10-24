@@ -36,7 +36,6 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           python3 -m venv venv
           poetry install
-          poetry build
           poetry run pytest
 
       - name: Check test status
@@ -52,7 +51,9 @@ jobs:
 
       - name: Build and push container image to registry
         if: steps.check-tests.outputs.tests_passed == 'true'
-        run: | 
+        run: |
+          ls
+          poetry build
           docker build . -t gfastapicd.azurecr.io/gfastapicd-cd:${{ github.sha }}
           docker push gfastapicd.azurecr.io/gfastapicd-cd:${{ github.sha }}
 
