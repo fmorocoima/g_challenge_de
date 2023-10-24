@@ -25,7 +25,7 @@ RUN poetry config virtualenvs.create false &&  poetry install --no-root --no-dev
 
 # Create and switch to a new user
 WORKDIR /app
-# Copy the .env file into the container
+
 
 # Install application into container
 COPY dist/ ./dist
@@ -35,5 +35,4 @@ USER dsuser
 
 COPY startup.py /app
 EXPOSE 8020
-EXPOSE 5432
 CMD python startup.py

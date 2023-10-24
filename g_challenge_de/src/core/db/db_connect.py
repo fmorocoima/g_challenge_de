@@ -3,18 +3,18 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import declarative_base
 
-# from g_challenge_de.src.settings import (
-#     POSTGRES_DB,
-#     POSTGRES_USER,
-#     POSTGRES_PASSWORD,
-#     POSTGRES_HOST,
-#     DB_PORT
-#     )
-POSTGRES_HOST = "gchallengedb.postgres.database.azure.com"
-POSTGRES_DB = "g_challenge_db_de"
-POSTGRES_USER = "user_g_challenge"
-POSTGRES_PASSWORD = "Cha12llengeG!"
-DB_PORT = 5432
+from g_challenge_de.src.settings import (
+    POSTGRES_DB,
+    POSTGRES_USER,
+    POSTGRES_PASSWORD,
+    POSTGRES_HOST,
+    DB_PORT
+    )
+# POSTGRES_HOST = "gchallengedb.postgres.database.azure.com"
+# POSTGRES_DB = "g_challenge_db_de"
+# POSTGRES_USER = "user_g_challenge"
+# POSTGRES_PASSWORD = "Cha12llengeG!"
+# DB_PORT = 5432
 
 
 #Configure the connection string (replace the values with your own).
