@@ -28,7 +28,7 @@ jobs:
 
       - name: Clone the code
         run: |
-          git clone https://github.com/fmorocoima/g_challenge_de.git
+          git clone https://github.com/fmorocoima/g_challenge_de.git g-challenge-de
 
       - name: Install Poetry dependencies and run the Tests
         run: |
