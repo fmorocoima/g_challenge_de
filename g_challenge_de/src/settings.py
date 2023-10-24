@@ -1,8 +1,14 @@
 import os
 
+env_file_path = 'g_challenge_de/.env'
+
 if not os.getenv('ENVIRONMENT', False):
     from dotenv import load_dotenv
-    load_dotenv('g_challenge_de/.env',)
+    # load_dotenv('g_challenge_de/.env',)
+    if os.path.isfile(env_file_path):
+        load_dotenv(env_file_path)
+    else:
+        print(f"the file {env_file_path} no found")
 
 # Server settings:
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'prod')
