@@ -27,6 +27,7 @@ RUN poetry config virtualenvs.create false &&  poetry install --no-root --no-dev
 WORKDIR /app
 # Copy the .env file into the container
 COPY .env /app/.env
+RUN export $(cat /app/.env | xargs)
 # Install application into container
 COPY dist/ ./dist
 RUN pip install dist/*.whl
