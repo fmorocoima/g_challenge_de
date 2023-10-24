@@ -15,15 +15,15 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     ports:
-      - ${DB_PORT}:5432
+      - 5432:5432
 
 
   adminer:
-    container_name: adminer_g_challenge_de
     image: adminer:4.8.0
+    container_name: adminer_g_challenge_de
     restart: always
     ports:
-      - ${ADMINER_PORT}:8080
+      - 8080:8080
     depends_on: ["db"]
 
   app:
